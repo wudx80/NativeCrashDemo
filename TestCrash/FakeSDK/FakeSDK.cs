@@ -12,10 +12,11 @@ namespace FakeSDK
     public class FakeSDK
     {
         private static FakeSDK instance;
+        private FakeManager fakeMgr;
 
         private FakeSDK()
         {
-
+            fakeMgr = new FakeManager();
         }
 
         public static FakeSDK getInstance()
@@ -50,14 +51,19 @@ namespace FakeSDK
             Resuming += FakeSDK_Resuming;
         }
 
-        private void FakeSDK_Resuming(object sender, EventArgs e)
+        private async void FakeSDK_Resuming(object sender, EventArgs e)
         {
-            // no op
+            int a = await fakeMgr.GetAnIntegerAsync();
+            int b = await getAnInteger();
+            if (a > b)
+            {
+                Debug.WriteLine("Can't reach here!");
+            }
         }
 
-        private async void FakeSDK_Suspending(object sender, SuspendingEventArgs e)
+        private void FakeSDK_Suspending(object sender, SuspendingEventArgs e)
         {
-            int a = await getAnInteger();
+            // no op
         }
 
         private async Task<int> getAnInteger()
